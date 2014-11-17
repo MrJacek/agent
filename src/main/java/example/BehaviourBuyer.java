@@ -11,45 +11,59 @@ import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
+import java.util.Iterator;
 
 public class BehaviourBuyer extends SimpleBehaviour {
 
-    private int step = 0;
+    private enum State{
+        FIND_SELLER,
+        ASK_FOR_STAFF ,
+        BUY_STAFF ,
+        END
+    }
+   
+    
+    public interface Action{
+        public void perfom(Object... args);
+    }
+    private State step = State.FIND_SELLER;
 
     AgentBuyer agent;
     AID seller;
+    Iterator<Staff> currentStaff;
 
     public BehaviourBuyer(Agent a) {
         super(a);
         agent = (AgentBuyer) myAgent;
+        currentStaff = agent.getStaffToBy().iterator();
     }
 
     @Override
     public void action() {
         switch (step) {
-            case 0:
+            case FIND_SELLER:
                 seller = findSeller();
                 if (null != seller) {
-                    step++;
+                    step=State.ASK_FOR_STAFF;
                 } else {
-                    step = 3;
+                    step = State.END;
                 }
                 break;
-            case 1:
-                askForBook();
+            case ASK_FOR_STAFF:
+                askForStaff();
                 if (getMsgAboutBook() == true) {
-                    step++;
+                    step=State.BUY_STAFF;
                 } else {
-                    step += 2;
+                    step=State.END;
                 }
                 break;
-            case 2:
-                buyBook();
-                step++;
+            case BUY_STAFF:
+                buyStaff();
+                step=State.END;
                 break;
-            case 3:
+            case END:
                 deregister();
-                step = 0;
+                step = State.FIND_SELLER;
                 break;
         }
     }
@@ -63,12 +77,14 @@ public class BehaviourBuyer extends SimpleBehaviour {
         }
     }
 
-    private void askForBook() {
-        sendMsg(ACLMessage.REQUEST, agent.getTargetBookTitle());
+    private void askForStaff() {
+         System.out.println("Asking about staff!");
+        sendMsg(ACLMessage.REQUEST,currentStaff.next().getName());
     }
 
-    private void buyBook() {
-        System.out.println("Buy a book!");
+    private void buyStaff() {
+        currentStaff.remove();
+        System.out.println("Buy a staff!");
 
     }
 

@@ -7,14 +7,18 @@ import jade.domain.DFService;
 import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
+import java.util.List;
 
 public class AgentSeller extends Agent {
 
     private Codec codec = new SLCodec();
+    private List<Staff> toSell;
+    private int profitToMake;
 
     protected void setup() {
         System.out.println("Hello! Seller-agent " + getAID().getName() + " is ready.");
         Object[] args = getArguments();
+        
         getContentManager().registerLanguage(codec);
 
         DFRegister("seller", this);
