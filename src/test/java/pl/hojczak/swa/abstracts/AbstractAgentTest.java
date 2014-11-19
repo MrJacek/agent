@@ -5,10 +5,15 @@
  */
 package pl.hojczak.swa.abstracts;
 
+import example.AgentSeller;
+import jade.Boot3;
 import jade.core.behaviours.SimpleBehaviour;
+import java.util.ArrayList;
 import java.util.List;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import pl.hojczak.swa.agents.CountryAgent;
+import pl.hojczak.swa.enums.BehaviourProfile;
 
 /**
  *
@@ -23,12 +28,14 @@ public class AbstractAgentTest {
 
     }
 
-    private class TestAgent extends AbstractAgent {
+    @Test
+    public void shouldStartAgentWithSmartProfile() {
 
-        @Override
-        protected List<SimpleBehaviour> getBehaviors() {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
+        List<String> bootAgents = new ArrayList<>(0);
+        bootAgents.add("TestSmart:" + CountryAgent.class.getName() + "(" + BehaviourProfile.Simple + ")");
+        String[] strarray = bootAgents.toArray(new String[0]);
+        new Boot3(strarray);
 
-    };
+    }
+
 }

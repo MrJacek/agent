@@ -16,11 +16,11 @@ import pl.hojczak.swa.enums.Resources;
  */
 public class MarketTest {
 
-    Market market;
+    MarketAgent market;
 
     @BeforeMethod
     public void init() {
-        market = new Market();
+        market = new MarketAgent();
     }
 
     @Test
@@ -51,6 +51,4 @@ public class MarketTest {
         market.addResource(Resources.Gems);
         Assert.assertFalse(market.isAvailable(Resources.Coal));
     }
-    
-
 }

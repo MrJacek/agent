@@ -5,10 +5,12 @@
  */
 package pl.hojczak.swa.agents;
 
+import pl.hojczak.swa.abstracts.AbstractAgent;
+
 /**
  *
  * @author jhojczak
  */
-public class Country {
+public class CountryAgent extends AbstractAgent {
     
 }

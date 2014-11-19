@@ -5,19 +5,19 @@
  */
 package pl.hojczak.swa.agents;
 
+import pl.hojczak.swa.abstracts.AbstractAgent;
 import pl.hojczak.swa.enums.Resources;
 
 /**
  *
  * @author jhojczak
  */
-public class Market {
+public class MarketAgent extends AbstractAgent {
 
     int[] resourcesCollection = new int[Resources.values().length];
 
     public void addResource(Resources resources) {
         resourcesCollection[resources.ordinal()] += 1;
-
     }
 
     public int calculatePricePeerUnit(Resources resources) {
@@ -27,5 +27,4 @@ public class Market {
     public boolean isAvailable(Resources resources) {
         return resourcesCollection[resources.ordinal()] > 0;
     }
-
 }
