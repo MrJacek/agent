@@ -9,7 +9,7 @@ package pl.hojczak.swa.enums;
  *
  * @author jhojczak
  */
-public enum Country {
+public enum Nation {
 
     Poland, Russia, USA, Germany, China, France, British, Egypt, Brazil
 }

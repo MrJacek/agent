@@ -11,6 +11,6 @@ import pl.hojczak.swa.abstracts.AbstractAgent;
  *
  * @author jhojczak
  */
-public class CountryAgent extends AbstractAgent {
+public class Country extends AbstractAgent {
     
 }

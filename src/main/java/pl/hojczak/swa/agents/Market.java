@@ -12,7 +12,7 @@ import pl.hojczak.swa.enums.Resources;
  *
  * @author jhojczak
  */
-public class MarketAgent extends AbstractAgent {
+public class Market extends AbstractAgent {
 
     int[] resourcesCollection = new int[Resources.values().length];
 

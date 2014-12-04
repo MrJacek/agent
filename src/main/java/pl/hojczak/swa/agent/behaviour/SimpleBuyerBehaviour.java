@@ -5,35 +5,37 @@
  */
 package pl.hojczak.swa.agent.behaviour;
 
-import jade.core.Agent;
 import jade.core.behaviours.SimpleBehaviour;
-import pl.hojczak.swa.agents.CountryAgent;
-import pl.hojczak.swa.enums.CountryBehaviour;
+import pl.hojczak.swa.abstracts.BehaviourHelper;
+import pl.hojczak.swa.agents.Country;
+import pl.hojczak.swa.annotations.CountryBehaviour;
 
 /**
  *
  * @author jhojczak
  */
 @CountryBehaviour
-public class SimpleBuyerBehaviour extends SimpleBehaviour {
+public class SimpleBuyerBehaviour implements MyBehaviour {
 
-    CountryAgent agent;
+    private static final long serialVersionUID = -6659772400634708655L;
 
-    public SimpleBuyerBehaviour(CountryAgent a) {
-        super(a);
+    Country agent;
+    BehaviourHelper helper;
+
+    public SimpleBuyerBehaviour(Country a, BehaviourHelper helper) {
         this.agent = a;
-    }
-
-    @Override
-    public void action() {
-        System.out.println(SimpleBuyerBehaviour.class.getName() + "Action");
+        this.helper = helper;
     }
 
     @Override
     public boolean done() {
         System.out.println(SimpleBuyerBehaviour.class.getName() + "Done");
         return true;
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void action(SimpleBehaviour beh) {
+        System.out.println(SimpleBuyerBehaviour.class.getName() + "Action");
     }
 
 }

@@ -5,14 +5,13 @@
  */
 package pl.hojczak.swa.abstracts;
 
-import example.AgentSeller;
 import jade.Boot3;
-import jade.core.behaviours.SimpleBehaviour;
 import java.util.ArrayList;
 import java.util.List;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import pl.hojczak.swa.agents.CountryAgent;
+import pl.hojczak.swa.agents.Country;
+import pl.hojczak.swa.agents.Market;
 import pl.hojczak.swa.enums.BehaviourProfile;
 
 /**
@@ -29,13 +28,13 @@ public class AbstractAgentTest {
     }
 
     @Test
-    public void shouldStartAgentWithSmartProfile() {
-
+    public void shouldStartAgentWithOwnProfiles() {
         List<String> bootAgents = new ArrayList<>(0);
-        bootAgents.add("TestSmart:" + CountryAgent.class.getName() + "(" + BehaviourProfile.Simple + ")");
+        System.out.println(String.format("(%s,%s,%s)",100,10,20));
+        bootAgents.add("Duch:" + Country.class.getName() + String.format("(%s %s)",BehaviourProfile.Simple,1000));
+        bootAgents.add("Europe:" + Market.class.getName() +String.format("(%s %s)",BehaviourProfile.Market,100));
         String[] strarray = bootAgents.toArray(new String[0]);
         new Boot3(strarray);
-
     }
 
 }
