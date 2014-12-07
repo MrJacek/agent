@@ -24,13 +24,13 @@ public class SimpleSellerBehaviour implements MyBehaviour {
 
     public SimpleSellerBehaviour(Country a, BehaviourHelper helper) {
         this.agent = a;
-        this.helper=helper;
+        this.helper = helper;
     }
 
     @Override
     public boolean done() {
-        System.out.println(SimpleSellerBehaviour.class.getName() + "Done");
-        return true;
+        System.out.println(SimpleSellerBehaviour.class.getName() + "Cash left: " + agent.getCash());
+        return agent.getCash() <= 0;
     }
 
     @Override

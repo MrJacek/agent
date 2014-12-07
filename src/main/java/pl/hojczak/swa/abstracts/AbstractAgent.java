@@ -13,11 +13,15 @@ import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.domain.FIPAException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 import pl.hojczak.swa.agent.behaviour.BaseBehaviour;
 import pl.hojczak.swa.agent.behaviour.MyBehaviour;
 import pl.hojczak.swa.enums.BehaviourProfile;
 import pl.hojczak.swa.annotations.CountryBehaviour;
 import pl.hojczak.swa.annotations.MarketBehaviour;
+import pl.hojczak.swa.enums.Goal;
+import pl.hojczak.swa.enums.Resources;
 
 /**
  *
@@ -25,11 +29,34 @@ import pl.hojczak.swa.annotations.MarketBehaviour;
  */
 public abstract class AbstractAgent extends Agent {
 
+    private static final long serialVersionUID = 1136607293807287884L;
+
     protected BehaviourProfile profile;
     protected int cash;
+    public List<Goal> goals;
 
     String getType() {
         return this.getClass().getSimpleName();
+    }
+
+    public void addCash(int cash) {
+        this.cash += cash;
+    }
+
+    public void removeCash(int cash) {
+        this.cash -= cash;
+    }
+
+    public boolean standFor(int cash) {
+        return this.cash >= cash;
+    }
+
+    public int getCash() {
+        return this.cash;
+    }
+
+    public void setCash(int cash) {
+        this.cash = cash;
     }
 
     @Override
@@ -42,8 +69,14 @@ public abstract class AbstractAgent extends Agent {
         Object[] arg = getArguments();
         profile = BehaviourProfile.valueOf(arg[0].toString());
         addBehaviours(profile);
+        goals = new ArrayList<>();
 
         cash = Integer.parseInt(arg[1].toString());
+        if (arg.length > 2) {
+            for (int i = 2; i < arg.length; i++) {
+                goals.add(new Goal(Resources.valueOf(arg[i].toString())));
+            }
+        }
 
     }
 
@@ -51,11 +84,11 @@ public abstract class AbstractAgent extends Agent {
         for (Class<?> behaviour : profile.getBehaviours()) {
             if (behaviour.isAnnotationPresent(CountryBehaviour.class)) {
                 try {
-                    Object obj = behaviour.getConstructor(this.getClass(),BehaviourHelper.class).newInstance(this,new BehaviourHelper());
+                    Object obj = behaviour.getConstructor(this.getClass(), BehaviourHelper.class).newInstance(this, new BehaviourHelper());
                     System.out.println("Add " + obj.getClass().getSimpleName());
                     MyBehaviour bebe = MyBehaviour.class.cast(obj);
-                    
-                    addBehaviour(new BaseBehaviour(bebe,this));
+
+                    addBehaviour(new BaseBehaviour(bebe, this));
                 } catch (NoSuchMethodException | SecurityException | InstantiationException |
                         IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
                     throw new IllegalStateException("Behaviour initalization problem", ex);
@@ -63,11 +96,11 @@ public abstract class AbstractAgent extends Agent {
             }
             if (behaviour.isAnnotationPresent(MarketBehaviour.class)) {
                 try {
-                    Object obj = behaviour.getConstructor(this.getClass(),BehaviourHelper.class).newInstance(this,new BehaviourHelper());
+                    Object obj = behaviour.getConstructor(this.getClass(), BehaviourHelper.class).newInstance(this, new BehaviourHelper());
                     System.out.println("Add " + obj.getClass().getSimpleName());
                     MyBehaviour bebe = MyBehaviour.class.cast(obj);
-                    
-                    addBehaviour(new BaseBehaviour(bebe,this));
+
+                    addBehaviour(new BaseBehaviour(bebe, this));
                 } catch (NoSuchMethodException | SecurityException | InstantiationException |
                         IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
                     throw new IllegalStateException("Behaviour initalization problem", ex);
@@ -75,7 +108,6 @@ public abstract class AbstractAgent extends Agent {
             }
         }
     }
-
 
     @Override
     protected void takeDown() {

@@ -15,9 +15,16 @@ import pl.hojczak.swa.enums.Resources;
  */
 public class Contract implements Serializable {
 
+    private static final long serialVersionUID = 6655432576268838364L;
+
     public ContractType type;
     public Resources resource;
     public int counts;
     public int totalPrice;
+
+    @Override
+    public String toString() {
+        return "Contract{" + "type=" + type + ", resource=" + resource + ", counts=" + counts + ", totalPrice=" + totalPrice + '}';
+    }
 
 }

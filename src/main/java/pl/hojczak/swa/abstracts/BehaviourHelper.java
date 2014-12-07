@@ -18,6 +18,7 @@ import jade.lang.acl.UnreadableException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import pl.hojczak.swa.agents.Country;
 import pl.hojczak.swa.agents.Market;
 import pl.hojczak.swa.enums.ContractType;
 
@@ -36,7 +37,7 @@ public class BehaviourHelper {
     }
 
     public DFAgentDescription[] findCountry(Agent a) {
-        return findAgent(Market.class.getSimpleName(), a);
+        return findAgent(Country.class.getSimpleName(), a);
     }
 
     public void sendMsg(int type, Contract contract, AID reciver, Agent sender) {
@@ -54,6 +55,7 @@ public class BehaviourHelper {
         DFAgentDescription template = new DFAgentDescription();
         ServiceDescription sd = new ServiceDescription();
         sd.setType(type);
+//        sd.setName(type);
         template.addServices(sd);
         DFAgentDescription[] result = new DFAgentDescription[0];
         try {
@@ -81,6 +83,22 @@ public class BehaviourHelper {
         };
     }
 
+    public MessageTemplate.MatchExpression contract() {
+        return new MessageTemplate.MatchExpression() {
+            private static final long serialVersionUID = -5666929549657574052L;
+
+            @Override
+            public boolean match(ACLMessage aclm) {
+                try {
+                    Contract contract = Contract.class.cast(aclm.getContentObject());
+                    return contract != null;
+                } catch (UnreadableException ex) {
+                    throw new IllegalStateException("Problem with filtring ACLMessage", ex);
+                }
+            }
+        };
+    }
+
     public MessageTemplate sellMessage() {
         return new MessageTemplate(
                 (ACLMessage aclm) -> {
@@ -98,8 +116,17 @@ public class BehaviourHelper {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public ACLMessage waitForBuyContract(Agent agent) {
-        ACLMessage msg = agent.blockingReceive(new MessageTemplate(buyMessage()));
+    public ACLMessage waitForMessage(Agent agent) {
+        try {
+            Thread.sleep(1000);
+            return agent.receive();
+        } catch (InterruptedException ex) {
+            throw new IllegalStateException(ex);
+        }
+    }
+
+    public ACLMessage waitForContract(Agent agent) {
+        ACLMessage msg = agent.blockingReceive(new MessageTemplate(contract()), 1000);
         return msg;
     }
 }

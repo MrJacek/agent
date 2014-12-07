@@ -7,10 +7,7 @@ package pl.hojczak.swa.agent.behaviour;
 
 import jade.core.behaviours.SimpleBehaviour;
 import jade.lang.acl.ACLMessage;
-import jade.lang.acl.MessageTemplate;
 import jade.lang.acl.UnreadableException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import pl.hojczak.swa.abstracts.BehaviourHelper;
 import pl.hojczak.swa.abstracts.Contract;
 import pl.hojczak.swa.agents.Market;
@@ -24,23 +21,62 @@ public class MarketBehaviour implements MyBehaviour {
 
     BehaviourHelper helper;
 
-    Market agent;
+    Market market;
 
     public MarketBehaviour(Market agent, BehaviourHelper helper) {
-        this.agent = agent;
+        this.market = agent;
         this.helper = helper;
+
     }
 
     @Override
     public boolean done() {
-        return true;
+        return market.getCash() <= 0;
     }
 
     @Override
     public void action(SimpleBehaviour beh) {
-        ACLMessage msg = helper.waitForBuyContract(agent);
+        System.out.println(market.getName() + ": Perform ");
+        ACLMessage msg = helper.waitForMessage(market);
+        if (msg == null) {
+            return;
+        }
         Contract con = getContract(msg);
-        helper.sendMsg(ACLMessage.ACCEPT_PROPOSAL, con, msg.getSender(), agent);
+        if (isUncompliteContract(con)) {
+            System.out.println(market.getName() + ": Recive uncomplete contract: " + con.toString());
+            helper.sendMsg(ACLMessage.NOT_UNDERSTOOD, con, msg.getSender(), market);
+            return;
+        }
+
+        if (ACLMessage.PROPOSE == msg.getPerformative()) {
+            System.out.println(market.getName() + ": Recive contract propose: " + con.toString());
+            if (market.quantity(con.resource) < con.counts) {
+                helper.sendMsg(ACLMessage.REJECT_PROPOSAL, con, msg.getSender(), market);
+                return;
+            }
+            int price = market.calculatePricePeerUnit(con.resource);
+            con.totalPrice = con.counts * price;
+            market.contracts.put(msg.getSender(), con);
+            helper.sendMsg(ACLMessage.INFORM, con, msg.getSender(), market);
+            return;
+        }
+
+        if (ACLMessage.AGREE == msg.getPerformative() && market.contracts.containsKey(msg.getSender())) {
+            System.out.println(market.getName() + ": Recive contract agree: " + con.toString());
+            if (market.quantity(con.resource) < con.counts) {
+                helper.sendMsg(ACLMessage.CANCEL, con, msg.getSender(), market);
+                return;
+            }
+            for (int i = 0; i < con.counts; ++i) {
+                market.removeResource(con.resource);
+            }
+            market.addCash(con.totalPrice);
+            helper.sendMsg(ACLMessage.ACCEPT_PROPOSAL, con, msg.getSender(), market);
+            return;
+        }
+
+        helper.sendMsg(ACLMessage.NOT_UNDERSTOOD, con, msg.getSender(), market);
+
     }
 
     private Contract getContract(ACLMessage msg) {
@@ -49,6 +85,10 @@ public class MarketBehaviour implements MyBehaviour {
         } catch (UnreadableException ex) {
             throw new IllegalStateException(ex);
         }
+    }
+
+    private boolean isUncompliteContract(Contract con) {
+        return con.resource == null || con.counts <= 0 || con.type == null;
     }
 
 }

@@ -5,7 +5,12 @@
  */
 package pl.hojczak.swa.agents;
 
+import jade.core.AID;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 import pl.hojczak.swa.abstracts.AbstractAgent;
+import pl.hojczak.swa.abstracts.Contract;
 import pl.hojczak.swa.enums.Resources;
 
 /**
@@ -14,17 +19,51 @@ import pl.hojczak.swa.enums.Resources;
  */
 public class Market extends AbstractAgent {
 
+    private static final long serialVersionUID = 1L;
+
     int[] resourcesCollection = new int[Resources.values().length];
 
+    public Map<AID, Contract> contracts;
+
+    private void init() {
+        if (resourcesCollection == null) {
+            resourcesCollection = new int[Resources.values().length];
+
+            for (int i = 0; i < resourcesCollection.length; i++) {
+                resourcesCollection[i] = new Random().nextInt(100);
+            }
+        }
+        if (contracts == null) {
+            this.contracts = new HashMap<>();
+        }
+    }
+
+    public Market() {
+
+    }
+
     public void addResource(Resources resources) {
+        init();
         resourcesCollection[resources.ordinal()] += 1;
     }
 
+    public void removeResource(Resources resources) {
+        init();
+        resourcesCollection[resources.ordinal()] -= 1;
+    }
+
     public int calculatePricePeerUnit(Resources resources) {
+        init();
         return resources.startPrice - ((resources.startPrice) * (resourcesCollection[resources.ordinal()]) / resources.stability);
     }
 
     public boolean isAvailable(Resources resources) {
+        init();
         return resourcesCollection[resources.ordinal()] > 0;
+    }
+
+    public int quantity(Resources resources) {
+        init();
+        return resourcesCollection[resources.ordinal()];
     }
 }

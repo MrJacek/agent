@@ -5,9 +5,7 @@
  */
 package pl.hojczak.swa.enums;
 
-import jade.core.behaviours.SimpleBehaviour;
 import pl.hojczak.swa.agent.behaviour.SimpleBuyerBehaviour;
-import pl.hojczak.swa.agent.behaviour.SimpleSellerBehaviour;
 import pl.hojczak.swa.agent.behaviour.SmartBuyerBehaviour;
 import pl.hojczak.swa.agent.behaviour.SmartSellerBehaviour;
 
@@ -17,7 +15,7 @@ import pl.hojczak.swa.agent.behaviour.SmartSellerBehaviour;
  */
 public enum BehaviourProfile {
 
-    Simple(SimpleBuyerBehaviour.class, SimpleSellerBehaviour.class),
+    Simple(SimpleBuyerBehaviour.class),
     Smart(SmartBuyerBehaviour.class, SmartSellerBehaviour.class),
     Market(pl.hojczak.swa.agent.behaviour.MarketBehaviour.class);
     Class<?>[] behaviour;
