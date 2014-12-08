@@ -30,7 +30,7 @@ public class BootWorld {
         bootAgents.add(Nation.Egypt+":" + Country.class.getName() + String.format("(%s %s %s)", BehaviourProfile.Simple, 1000000, Gems.name()+";45"));
         bootAgents.add(Nation.Germany+":" + Country.class.getName() + String.format("(%s %s %s)", BehaviourProfile.Simple, 1000000, Gems.name()+";45"));
         bootAgents.add(Nation.Brazil+":" + Country.class.getName() + String.format("(%s %s %s)", BehaviourProfile.Simple, 1000000, Gems.name()+";45"));
-        bootAgents.add(Nation.Poland+":" + Country.class.getName() + String.format("(%s %s %s)", BehaviourProfile.Smart, 1000000, Gems.name()+";45"));
+        bootAgents.add(Nation.Poland+":" + Country.class.getName() + String.format("(%s %s %s)", BehaviourProfile.Simple, 1000000, Gems.name()+";45"));
         bootAgents.add("Europe:" + Market.class.getName() + String.format("(%s %s)", BehaviourProfile.Market,1));
         bootAgents.add("America:" + Market.class.getName() + String.format("(%s %s)", BehaviourProfile.Market, 100000));
         bootAgents.add("Asia:" + Market.class.getName() + String.format("(%s %s)", BehaviourProfile.Market, 100000));

@@ -11,12 +11,12 @@ package pl.hojczak.swa.enums;
  */
 public enum Resources {
 
-    Coal(1000, 1000),
-    Gems(3500, 1000),
-    Iron(1500, 100),
-    Gold(2500, 1000),
-    Silver(2000, 1000),
-    Aluminum(1500, 1000);
+    Coal(1000, 100),
+    Gems(3500, 10),
+    Iron(1500, 10),
+    Gold(2500, 100),
+    Silver(2000, 100),
+    Aluminum(1500, 100);
     
     public final int startPrice;
     public final int stability;
