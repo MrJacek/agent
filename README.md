@@ -1,4 +1,4 @@
-agent
+Projekt zaliczeniowy na SWA
 =====
 Kompilacja z użyciem maven:
 
