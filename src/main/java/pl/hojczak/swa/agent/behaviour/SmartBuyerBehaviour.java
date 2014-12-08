@@ -58,11 +58,11 @@ public class SmartBuyerBehaviour implements MyBehaviour {
     public boolean done() {
         boolean result = false;
         for (Goal g : agent.goals) {
-            System.out.println(agent.getName() + ": Goal " + g + " current: " + agent.collects[g.res.ordinal()]+" cash: "+agent.getCash());
+            System.out.println(agent.getName() + ": Goal " + g + " current: " + agent.collects[g.res.ordinal()] + " cash: " + agent.getCash());
             result |= g.reachGoal(agent.collects[g.res.ordinal()]);
         }
         result |= agent.cancelContractCount > 5;
-        if(result){
+        if (result) {
             try {
                 wirteResult(agent);
             } catch (FileNotFoundException ex) {
@@ -70,6 +70,7 @@ public class SmartBuyerBehaviour implements MyBehaviour {
             } catch (UnsupportedEncodingException ex) {
                 Logger.getLogger(SmartBuyerBehaviour.class.getName()).log(Level.SEVERE, null, ex);
             }
+            agent.doDelete();
         }
         return result;
     }
