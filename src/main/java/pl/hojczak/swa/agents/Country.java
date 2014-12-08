@@ -5,8 +5,6 @@
  */
 package pl.hojczak.swa.agents;
 
-import java.util.HashMap;
-import java.util.Map;
 import pl.hojczak.swa.abstracts.AbstractAgent;
 import pl.hojczak.swa.enums.Resources;
 
@@ -18,6 +16,17 @@ public class Country extends AbstractAgent {
 
     private static final long serialVersionUID = -2622338287143408788L;
 
-    public Map<Resources, Integer> collects = new HashMap<>();
+    public int[] collects = new int[Resources.values().length];
+    public int cancelContractCount = 0;
+
+    public String printState() {
+        StringBuilder builder = new StringBuilder(this.getLocalName());
+        builder.append(": {");
+        for (Resources res : Resources.values()) {
+            builder.append(res.name()).append("=").append(collects[res.ordinal()]).append(" ");
+        }
+        builder.append("cash=").append(this.cash).append("}");
+        return builder.toString();
+    }
 
 }

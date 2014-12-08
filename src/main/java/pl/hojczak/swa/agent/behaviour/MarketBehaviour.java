@@ -31,16 +31,20 @@ public class MarketBehaviour implements MyBehaviour {
 
     @Override
     public boolean done() {
-        return market.getCash() <= 0;
+        return false;
     }
 
     @Override
     public void action(SimpleBehaviour beh) {
-        System.out.println(market.getName() + ": Perform ");
+        System.out.println(market.getName() + ": Wait for offerts ");
         ACLMessage msg = helper.waitForMessage(market);
         if (msg == null) {
             return;
         }
+        if (ACLMessage.CANCEL == msg.getPerformative()) {
+            return;
+        }
+
         Contract con = getContract(msg);
         if (isUncompliteContract(con)) {
             System.out.println(market.getName() + ": Recive uncomplete contract: " + con.toString());
@@ -50,14 +54,19 @@ public class MarketBehaviour implements MyBehaviour {
 
         if (ACLMessage.PROPOSE == msg.getPerformative()) {
             System.out.println(market.getName() + ": Recive contract propose: " + con.toString());
-            if (market.quantity(con.resource) < con.counts) {
+            System.out.println(market.getName() + ": Has resources?: " + market.quantity(con.resource) + "<=" + con.counts);
+            if (market.quantity(con.resource) <= con.counts) {
+                System.out.println(market.getName() + ": Don't have '" + con.resource + ".");
                 helper.sendMsg(ACLMessage.REJECT_PROPOSAL, con, msg.getSender(), market);
                 return;
             }
+
             int price = market.calculatePricePeerUnit(con.resource);
             con.totalPrice = con.counts * price;
             market.contracts.put(msg.getSender(), con);
+            System.out.println(market.getName() + "Replay contract price." + con.toString());
             helper.sendMsg(ACLMessage.INFORM, con, msg.getSender(), market);
+
             return;
         }
 

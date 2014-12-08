@@ -7,7 +7,6 @@ package pl.hojczak.swa.enums;
 
 import pl.hojczak.swa.agent.behaviour.SimpleBuyerBehaviour;
 import pl.hojczak.swa.agent.behaviour.SmartBuyerBehaviour;
-import pl.hojczak.swa.agent.behaviour.SmartSellerBehaviour;
 
 /**
  *
@@ -16,7 +15,7 @@ import pl.hojczak.swa.agent.behaviour.SmartSellerBehaviour;
 public enum BehaviourProfile {
 
     Simple(SimpleBuyerBehaviour.class),
-    Smart(SmartBuyerBehaviour.class, SmartSellerBehaviour.class),
+    Smart(SmartBuyerBehaviour.class),
     Market(pl.hojczak.swa.agent.behaviour.MarketBehaviour.class);
     Class<?>[] behaviour;
 

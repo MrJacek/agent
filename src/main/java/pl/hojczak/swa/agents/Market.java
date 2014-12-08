@@ -21,16 +21,17 @@ public class Market extends AbstractAgent {
 
     private static final long serialVersionUID = 1L;
 
-    int[] resourcesCollection = new int[Resources.values().length];
+    int[] resourcesCollection;
 
     public Map<AID, Contract> contracts;
 
     private void init() {
         if (resourcesCollection == null) {
+
             resourcesCollection = new int[Resources.values().length];
 
-            for (int i = 0; i < resourcesCollection.length; i++) {
-                resourcesCollection[i] = new Random().nextInt(100);
+            for (int i = 0; i < Resources.values().length; i++) {
+                resourcesCollection[i] = 100000;
             }
         }
         if (contracts == null) {

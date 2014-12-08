@@ -45,6 +45,7 @@ public class BehaviourHelper {
             ACLMessage msg = new ACLMessage(type);
             msg.setLanguage(new SLCodec().getName());
             msg.setContentObject(contract);
+            msg.addReceiver(reciver);
             sender.send(msg);
         } catch (IOException ex) {
             throw new IllegalStateException("Problem with sending contract", ex);
@@ -55,7 +56,7 @@ public class BehaviourHelper {
         DFAgentDescription template = new DFAgentDescription();
         ServiceDescription sd = new ServiceDescription();
         sd.setType(type);
-//        sd.setName(type);
+
         template.addServices(sd);
         DFAgentDescription[] result = new DFAgentDescription[0];
         try {
@@ -111,22 +112,28 @@ public class BehaviourHelper {
                 });
 
     }
+  
 
     public Contract getContract(ACLMessage msg) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public ACLMessage waitForMessage(Agent agent) {
         try {
-            Thread.sleep(1000);
-            return agent.receive();
-        } catch (InterruptedException ex) {
-            throw new IllegalStateException(ex);
+            return Contract.class.cast(msg.getContentObject());
+        } catch (UnreadableException ex) {
+            throw new IllegalArgumentException(ex);
         }
     }
 
+    public ACLMessage waitForMessage(Agent agent) {
+//       / try {
+
+        return agent.blockingReceive();
+//        } catch (InterruptedException ex) {
+//            throw new IllegalStateException(ex);
+//        }
+    }
+
     public ACLMessage waitForContract(Agent agent) {
-        ACLMessage msg = agent.blockingReceive(new MessageTemplate(contract()), 1000);
+        ACLMessage msg = agent.blockingReceive(new MessageTemplate(contract()));
+        System.out.println(agent.getName() + ": Recive message:"+msg.toString());
         return msg;
     }
 }

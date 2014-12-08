@@ -20,7 +20,7 @@ import pl.hojczak.swa.agent.behaviour.MyBehaviour;
 import pl.hojczak.swa.enums.BehaviourProfile;
 import pl.hojczak.swa.annotations.CountryBehaviour;
 import pl.hojczak.swa.annotations.MarketBehaviour;
-import pl.hojczak.swa.enums.Goal;
+import pl.hojczak.swa.Goal;
 import pl.hojczak.swa.enums.Resources;
 
 /**
@@ -74,10 +74,10 @@ public abstract class AbstractAgent extends Agent {
         cash = Integer.parseInt(arg[1].toString());
         if (arg.length > 2) {
             for (int i = 2; i < arg.length; i++) {
-                goals.add(new Goal(Resources.valueOf(arg[i].toString())));
+                String[] goal=arg[i].toString().split(";");
+                goals.add(new Goal(Resources.valueOf(goal[0]),Integer.parseInt(goal[1])));
             }
         }
-
     }
 
     private void addBehaviours(BehaviourProfile profile) {
