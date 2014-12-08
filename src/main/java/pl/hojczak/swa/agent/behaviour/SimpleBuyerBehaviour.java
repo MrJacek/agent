@@ -71,7 +71,7 @@ public class SimpleBuyerBehaviour implements MyBehaviour {
             } catch (UnsupportedEncodingException ex) {
                 Logger.getLogger(SmartBuyerBehaviour.class.getName()).log(Level.SEVERE, null, ex);
             }
-            agent.doDelete();;
+            agent.doDelete();
         }
         return result;
     }
