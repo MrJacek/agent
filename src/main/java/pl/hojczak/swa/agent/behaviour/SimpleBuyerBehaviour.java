@@ -11,8 +11,10 @@ import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.lang.acl.ACLMessage;
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import pl.hojczak.swa.abstracts.BehaviourHelper;
@@ -132,21 +134,25 @@ public class SimpleBuyerBehaviour implements MyBehaviour {
         }
 
     }
+    Random r = new Random(new Date().getTime());
 
     private void sendOfferts() {
 
         Goal g = agent.goals.get(0);
         System.out.println(agent.getName() + ": Send contract for goal: " + g.toString());
-
+        int index = r.nextInt(contracts.size());
+        int i = 0;
         for (Map.Entry<AID, Contract> entry : contracts.entrySet()) {
-
-            Contract con = new Contract();
-            con.counts = 1;
-            con.resource = g.res;
-            con.type = ContractType.BUY;
-            System.out.println(agent.getName() + ": Sending contract: " + con.toString() + " to " + entry.getKey().getName());
-            helper.sendMsg(ACLMessage.PROPOSE, con, entry.getKey(), agent);
-            entry.setValue(con);
+            if (index == i) {
+                Contract con = new Contract();
+                con.counts = 1;
+                con.resource = g.res;
+                con.type = ContractType.BUY;
+                System.out.println(agent.getName() + ": Sending contract: " + con.toString() + " to " + entry.getKey().getName());
+                helper.sendMsg(ACLMessage.PROPOSE, con, entry.getKey(), agent);
+                entry.setValue(con);
+            }
+            i++;
         }
         currentState = State.WaitForAnswer;
     }

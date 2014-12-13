@@ -25,15 +25,15 @@ public class BootWorld {
         List<String> bootAgents = new ArrayList<>(0);
         System.out.println(String.format("(%s,%s,%s)", 100, 10, 20));
         bootAgents.add("-gui");
-        bootAgents.add(Nation.China+":" + Country.class.getName() + String.format("(%s %s %s)", BehaviourProfile.Simple, 1000000, Gems.name()+";45"));
-        bootAgents.add(Nation.British+":" + Country.class.getName() + String.format("(%s %s %s)", BehaviourProfile.Simple, 1000000, Gems.name()+";45"));
-        bootAgents.add(Nation.Egypt+":" + Country.class.getName() + String.format("(%s %s %s)", BehaviourProfile.Simple, 1000000, Gems.name()+";45"));
-        bootAgents.add(Nation.Germany+":" + Country.class.getName() + String.format("(%s %s %s)", BehaviourProfile.Simple, 1000000, Gems.name()+";45"));
-        bootAgents.add(Nation.Brazil+":" + Country.class.getName() + String.format("(%s %s %s)", BehaviourProfile.Simple, 1000000, Gems.name()+";45"));
-        bootAgents.add(Nation.Poland+":" + Country.class.getName() + String.format("(%s %s %s)", BehaviourProfile.Simple, 1000000, Gems.name()+";45"));
-        bootAgents.add("Europe:" + Market.class.getName() + String.format("(%s %s)", BehaviourProfile.Market,1));
-        bootAgents.add("America:" + Market.class.getName() + String.format("(%s %s)", BehaviourProfile.Market, 100000));
-        bootAgents.add("Asia:" + Market.class.getName() + String.format("(%s %s)", BehaviourProfile.Market, 100000));
+        bootAgents.add(Nation.China+":" + Country.class.getName() + String.format("(%s %s %s)", BehaviourProfile.Simple,  500000, Gems.name()+";45"));
+        bootAgents.add(Nation.British+":" + Country.class.getName() + String.format("(%s %s %s)", BehaviourProfile.Simple,500000, Gems.name()+";45"));
+        bootAgents.add(Nation.Egypt+":" + Country.class.getName() + String.format("(%s %s %s)", BehaviourProfile.Simple,  500000, Gems.name()+";45"));
+        bootAgents.add(Nation.Germany+":" + Country.class.getName() + String.format("(%s %s %s)", BehaviourProfile.Simple,500000, Gems.name()+";45"));
+        bootAgents.add(Nation.Brazil+":" + Country.class.getName() + String.format("(%s %s %s)", BehaviourProfile.Simple, 500000, Gems.name()+";45"));
+        bootAgents.add(Nation.Poland+":" + Country.class.getName() + String.format("(%s %s %s)", BehaviourProfile.Smart, 500000, Gems.name()+";45"));
+        bootAgents.add("Europe:" + Market.class.getName() + String.format("(%s %s)", BehaviourProfile.Market,1000));
+        bootAgents.add("America:" + Market.class.getName() + String.format("(%s %s)", BehaviourProfile.Market, 1000));
+        bootAgents.add("Asia:" + Market.class.getName() + String.format("(%s %s)", BehaviourProfile.Market, 1000));
         String[] strarray = bootAgents.toArray(new String[0]);
         new Boot3(strarray);
     }

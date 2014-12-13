@@ -31,7 +31,7 @@ public class Market extends AbstractAgent {
             resourcesCollection = new int[Resources.values().length];
 
             for (int i = 0; i < Resources.values().length; i++) {
-                resourcesCollection[i] = 100000;
+                resourcesCollection[i] = 200;
             }
         }
         if (contracts == null) {
@@ -55,7 +55,9 @@ public class Market extends AbstractAgent {
 
     public int calculatePricePeerUnit(Resources resources) {
         init();
-        return resources.startPrice - ((resources.startPrice) * (resourcesCollection[resources.ordinal()]) / resources.stability);
+        return resources.startPrice + (resourcesCollection[resources.ordinal()]*10 / resources.stability);
+
+//        return resources.startPrice - ((resources.startPrice) * (resourcesCollection[resources.ordinal()]) / resources.stability);
     }
 
     public boolean isAvailable(Resources resources) {
